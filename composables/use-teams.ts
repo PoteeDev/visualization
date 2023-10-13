@@ -78,7 +78,7 @@ export function useTeams() {
     ) {
       const response = message as WebSocketConnectResponseDto;
 
-      if (response.round && teams.value.length === 0) {
+      if (typeof response.round === "number" && teams.value.length === 0) {
         teams.value = response.teams.map<Team>((team) => {
           return {
             name: team.name,
@@ -96,7 +96,7 @@ export function useTeams() {
         return;
       }
 
-      if (response.round && teams.value.length > 0) {
+      if (typeof response.round === "number" && teams.value.length > 0) {
         const roundNotifications = response.teams.reduce<RoundNotification[]>(
           (acc, team) => {
             const notifications = team.services

@@ -163,8 +163,8 @@ function initCanvas(
       layer.add(rect);
     });
 
-    teams.value.forEach((command, i) => {
-      const svgDOM = toSvg(command.name, 500, {
+    teams.value.forEach((team, i) => {
+      const svgDOM = toSvg(team.name, 500, {
         padding: 0.08,
         backColor: "#2b2b2b",
       });
@@ -187,7 +187,7 @@ function initCanvas(
         image.stroke(gradient as unknown as string);
         image.cornerRadius(10);
         image.strokeWidth(6);
-        image.id(command.name);
+        image.id(team.name);
 
         const commandRect = new Konva.Rect({
           x: point.x - 42,
@@ -197,12 +197,30 @@ function initCanvas(
           opacity: 0,
           strokeWidth: 6,
           cornerRadius: 10,
-          id: "status_" + command.name,
+          id: "status_" + team.name,
         });
 
         layer.add(image);
 
         layer.add(commandRect);
+
+        const fontSize = 20;
+
+        const name = new konva.Text({
+          text: team.name,
+          fontSize,
+          fill: "white",
+        });
+
+        const nameHeight = name.height();
+        const nameWidth = name.width();
+        const dividedHeight = nameHeight / 2;
+        const normilizeTextHeight = point.y > centerY ? 65 : -65;
+
+        name.y(point.y - dividedHeight + normilizeTextHeight);
+        name.x(point.x - nameWidth / 2);
+
+        layer.add(name);
       });
     });
 
